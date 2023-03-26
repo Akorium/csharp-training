@@ -2,7 +2,6 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -11,7 +10,7 @@ using OpenQA.Selenium.Support.UI;
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class GroupCreationTests
+    public class AddressBookEntryCreationTests
     {
         private IWebDriver driver;
         private StringBuilder verificationErrors;
@@ -37,22 +36,18 @@ namespace addressbook_web_tests
             {
                 // Ignore errors if unable to close the browser
             }
-            NUnit.Framework.Assert.AreEqual("", verificationErrors.ToString());
+            Assert.AreEqual("", verificationErrors.ToString());
         }
 
         [Test]
-        public void GroupCreationTest()
+        public void AddressBookEntryCreationTest()
         {
             OpenAddressBookPage();
-            AddressBookAuthorization(new AccountData ("admin", "secret"));
-            GoToGroupsPage();
-            InitGroupCreation();
-            GroupData group = new GroupData("name");
-            group.Header = "header";
-            group.Footer = "footer";
-            FillGroupForm(group);
-            SubmitGroupCreation();
-            ReturnToGroupsPage();
+            AddressBookAuthorization(new AccountData("admin", "secret"));
+            GoToAddressBookEntryCreationPage();
+            FillAddressBookEntryForm(new AddressBookEntryData("Test", "Test"));
+            SubmitAddressBookEntryCreation();
+            ReturnToHomePage();
             LogoutFromAddressBook();
         }
 
@@ -61,34 +56,27 @@ namespace addressbook_web_tests
             driver.FindElement(By.LinkText("Logout")).Click();
         }
 
-        private void ReturnToGroupsPage()
+        private void ReturnToHomePage()
         {
-            driver.FindElement(By.LinkText("group page")).Click();
+            driver.FindElement(By.LinkText("home page")).Click();
         }
 
-        private void SubmitGroupCreation()
+        private void SubmitAddressBookEntryCreation()
         {
-            driver.FindElement(By.Name("submit")).Click();
+            driver.FindElement(By.XPath("//input[@value='Enter']")).Click();
         }
 
-        private void FillGroupForm(GroupData group)
+        private void FillAddressBookEntryForm(AddressBookEntryData addressBookEntry)
         {
-            driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys(group.Name);
-            driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys(group.Header);
-            driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys(group.Footer);
+            driver.FindElement(By.Name("firstname")).Clear();
+            driver.FindElement(By.Name("firstname")).SendKeys(addressBookEntry.Firstname);
+            driver.FindElement(By.Name("lastname")).Clear();
+            driver.FindElement(By.Name("lastname")).SendKeys(addressBookEntry.LastName);
         }
 
-        private void InitGroupCreation()
+        private void GoToAddressBookEntryCreationPage()
         {
-            driver.FindElement(By.Name("new")).Click();
-        }
-
-        private void GoToGroupsPage()
-        {
-            driver.FindElement(By.LinkText("groups")).Click();
+            driver.FindElement(By.LinkText("add new")).Click();
         }
 
         private void AddressBookAuthorization(AccountData account)
