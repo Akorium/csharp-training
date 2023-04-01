@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace addressbook_web_tests
+﻿namespace addressbook_web_tests
 {
-    internal class AddressBookEntryData
+    public class AddressBookEntryData
     {
         private string firstname;
         private string lastname;
