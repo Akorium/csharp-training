@@ -24,5 +24,10 @@ namespace addressbook_web_tests
             driver.FindElement(By.LinkText("add new")).Click();
             return this;
         }
+        public NavigationHelper GoToHomePage()
+        {
+            driver.FindElement(By.LinkText("home")).Click();
+            return this;
+        }
     }
 }
