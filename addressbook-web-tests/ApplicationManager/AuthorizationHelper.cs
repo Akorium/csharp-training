@@ -1,23 +1,45 @@
 ﻿using OpenQA.Selenium;
+using System;
 
 namespace addressbook_web_tests
 {
     public class AuthorizationHelper : HelperBase
     {
         public AuthorizationHelper(ApplicationManager applicationManager) : base(applicationManager) {}
-        public AuthorizationHelper AddressBookAuthorization(AccountData account)
+        public void AddressBookAuthorization(AccountData account)
         {
-            driver.FindElement(By.Name("user")).Clear();
-            driver.FindElement(By.Name("user")).SendKeys(account.Username);
-            driver.FindElement(By.Name("pass")).Clear();
-            driver.FindElement(By.Name("pass")).SendKeys(account.Password);
+            if (IsAuthorized())
+            {
+                if(IsAuthorized(account))
+                {
+                    return;
+                }
+                LogoutFromAddressBook();
+            }
+            Insert(By.Name("user"), account.Username);
+            Insert(By.Name("pass"), account.Password);
             driver.FindElement(By.XPath("//input[@value='Login']")).Click();
-            return this;
         }
-        public AuthorizationHelper LogoutFromAddressBook()
+
+        public bool IsAuthorized(AccountData account)
         {
-            driver.FindElement(By.LinkText("Logout")).Click();
-            return this;
+            return IsAuthorized()
+                && driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text == "(" + account.Username + ")";
+        }
+
+        public bool IsAuthorized()
+        {
+            return IsElementPresent(By.Name("logout"));
+        }
+
+        public void LogoutFromAddressBook()
+        {
+            if (IsAuthorized())
+            {
+                driver.FindElement(By.LinkText("Logout")).Click();
+                driver.FindElement(By.Name("user"));
+            }
+
         }
     }
 }

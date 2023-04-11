@@ -3,7 +3,7 @@
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class GroupModifivationTests : TestBase
+    public class GroupModifivationTests : AuthorizationTestBase
     {
 
         [Test]
@@ -11,8 +11,8 @@ namespace addressbook_web_tests
         {
             GroupData group = new GroupData("New_name")
             {
-                Header = "New_header",
-                Footer = "New_footer"
+                Header = null,
+                Footer = null
             };
 
             applicationManager.GroupHelper.Modify(group, 1);

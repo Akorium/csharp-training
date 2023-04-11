@@ -1,9 +1,10 @@
 ﻿using NUnit.Framework;
+using System;
 
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class AddressBookEntryCreationTests : TestBase
+    public class AddressBookEntryCreationTests : AuthorizationTestBase
     {
  
         [Test]
@@ -12,6 +13,7 @@ namespace addressbook_web_tests
             AddressBookEntryData addressBookEntryData = new AddressBookEntryData("Test", "Test");
             applicationManager.AddressBookEntryHelper.Create(addressBookEntryData);
             applicationManager.AuthorizationHelper.LogoutFromAddressBook();
+
         }
     }
 }

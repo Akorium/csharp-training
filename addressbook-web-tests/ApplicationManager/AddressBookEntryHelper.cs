@@ -16,6 +16,7 @@ namespace addressbook_web_tests
         }
         public AddressBookEntryHelper Modify(AddressBookEntryData addressBookEntryData, int number)
         {
+            CheckEntry(number);
             GoToEditPage(number);
             FillAddressBookEntryForm(addressBookEntryData);
             SubmitAddressBookEntryModification();
@@ -24,17 +25,30 @@ namespace addressbook_web_tests
         }
         public AddressBookEntryHelper Remove(int number)
         {
+            CheckEntry(number);
             SelectAddressBookEntry(number);
             SubmitAddressBookEntryRemoval();
             applicationManager.NavigationHelper.GoToHomePage();
             return this;
         }
+        public AddressBookEntryHelper CheckEntry(int number)
+        {
+            if (!IsThereAnyEntry(number))
+            {
+                AddressBookEntryData addressBookEntryData = new AddressBookEntryData("Test", "Test");
+                Create(addressBookEntryData);
+            }
+            return this;
+        }
+
+        public bool IsThereAnyEntry(int number)
+        {
+            return IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[" + ++number + "]/td[1]/input"));
+        }
         public AddressBookEntryHelper FillAddressBookEntryForm(AddressBookEntryData addressBookEntry)
         {
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(addressBookEntry.Firstname);
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(addressBookEntry.LastName);
+            Insert(By.Name("firstname"), addressBookEntry.Firstname);
+            Insert(By.Name("lastname"), addressBookEntry.LastName);
             return this;
         }
         public AddressBookEntryHelper SubmitAddressBookEntryCreation()

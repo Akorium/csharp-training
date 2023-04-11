@@ -9,25 +9,37 @@ namespace addressbook_web_tests
         {
             this.baseURL = baseURL;
         }
-        public NavigationHelper OpenAddressBookPage()
+        public void OpenAddressBookPage()
         {
+            if (driver.Url == baseURL)
+            {
+                return;
+            }
             driver.Navigate().GoToUrl(baseURL);
-            return this;
         }
-        public NavigationHelper GoToGroupsPage()
+        public void GoToGroupsPage()
         {
+            if (driver.Url == baseURL + "group.php" && IsElementPresent(By.XPath("//input[@value='New group']")))
+            {
+                return;
+            }
             driver.FindElement(By.LinkText("groups")).Click();
-            return this;
         }
-        public NavigationHelper GoToAddressBookEntryCreationPage()
+        public void GoToAddressBookEntryCreationPage()
         {
+            if (driver.Url == baseURL + "edit.php" && IsElementPresent(By.XPath("//input[@value='Enter']")))
+            { 
+                return;
+            }
             driver.FindElement(By.LinkText("add new")).Click();
-            return this;
         }
-        public NavigationHelper GoToHomePage()
+        public void GoToHomePage()
         {
+            if (driver.Url == baseURL)
+            {
+                return;
+            }
             driver.FindElement(By.LinkText("home")).Click();
-            return this;
         }
     }
 }
