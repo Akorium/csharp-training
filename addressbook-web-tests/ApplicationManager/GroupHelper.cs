@@ -37,6 +37,7 @@ namespace addressbook_web_tests
 
         public GroupHelper CheckGroup(int number)
         {
+            applicationManager.NavigationHelper.GoToGroupsPage();
             if (!IsThereAnyGroup(number))
             {
                 GroupData group = new GroupData("name")
