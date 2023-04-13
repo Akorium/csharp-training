@@ -5,7 +5,7 @@ namespace addressbook_web_tests
     [TestFixture]
     public class AddressBookEntryModificationTests : AuthorizationTestBase
     {
-        int entry_number = 1;
+        private int entry_number = 1;
         [Test]
         public void AddressBookEntryModificationTest() 
         {
