@@ -19,7 +19,6 @@ namespace addressbook_web_tests
         public GroupHelper Remove(int number)
         {
             applicationManager.NavigationHelper.GoToGroupsPage();
-            CheckGroup(number);
             SelectGroup(number);
             SubmitGroupRemoval();
             ReturnToGroupsPage();
@@ -28,7 +27,6 @@ namespace addressbook_web_tests
         public GroupHelper Modify(GroupData group, int number)
         {
             applicationManager.NavigationHelper.GoToGroupsPage();
-            CheckGroup(number);
             SelectGroup(number);
             InitGroupModification();
             FillGroupForm(group);

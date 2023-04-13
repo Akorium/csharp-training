@@ -16,7 +16,6 @@ namespace addressbook_web_tests
         }
         public AddressBookEntryHelper Modify(AddressBookEntryData addressBookEntryData, int number)
         {
-            CheckEntry(number);
             GoToEditPage(number);
             FillAddressBookEntryForm(addressBookEntryData);
             SubmitAddressBookEntryModification();
@@ -25,7 +24,6 @@ namespace addressbook_web_tests
         }
         public AddressBookEntryHelper Remove(int number)
         {
-            CheckEntry(number);
             SelectAddressBookEntry(number);
             SubmitAddressBookEntryRemoval();
             applicationManager.NavigationHelper.GoToHomePage();
