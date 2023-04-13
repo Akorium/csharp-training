@@ -5,7 +5,7 @@ namespace addressbook_web_tests
     [TestFixture]
     public class GroupModifivationTests : AuthorizationTestBase
     {
-
+        private int group_number = 1;
         [Test]
         public void GroupModificationTest()
         {
@@ -14,8 +14,8 @@ namespace addressbook_web_tests
                 Header = null,
                 Footer = null
             };
-
-            applicationManager.GroupHelper.Modify(group, 1);
+            applicationManager.GroupHelper.CheckGroup(group_number);
+            applicationManager.GroupHelper.Modify(group, group_number);
             applicationManager.AuthorizationHelper.LogoutFromAddressBook();
         }
     }
