@@ -1,5 +1,7 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace addressbook_web_tests
@@ -19,7 +21,7 @@ namespace addressbook_web_tests
         public GroupHelper Remove(int number)
         {
             applicationManager.NavigationHelper.GoToGroupsPage();
-            SelectGroup(number);
+            SelectGroup(++number);
             SubmitGroupRemoval();
             ReturnToGroupsPage();
             return this;
@@ -27,7 +29,7 @@ namespace addressbook_web_tests
         public GroupHelper Modify(GroupData group, int number)
         {
             applicationManager.NavigationHelper.GoToGroupsPage();
-            SelectGroup(number);
+            SelectGroup(++number);
             InitGroupModification();
             FillGroupForm(group);
             SubmitGroupModification();
@@ -35,10 +37,11 @@ namespace addressbook_web_tests
             return this;
         }
 
+
         public GroupHelper CheckGroup(int number)
         {
             applicationManager.NavigationHelper.GoToGroupsPage();
-            if (!IsThereAnyGroup(number))
+            if (!IsThereAnyGroup(++number))
             {
                 GroupData group = new GroupData("name")
                 {
@@ -99,5 +102,16 @@ namespace addressbook_web_tests
             return this;
         }
 
+        public List<GroupData> GetGroupList()
+        {
+            applicationManager.NavigationHelper.GoToGroupsPage();
+            List<GroupData> groups = new List<GroupData>();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+            foreach (IWebElement element in elements)
+            {
+                groups.Add(new GroupData(element.Text));
+            }
+            return groups;
+        }
     }
 }
