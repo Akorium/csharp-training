@@ -4,13 +4,9 @@ namespace addressbook_web_tests
 {
     public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
-        private string name;
-        private string header = "";
-        private string footer = "";
-
         public GroupData(string name)
         { 
-            this.name = name; 
+            Name = name; 
         }
         public bool Equals(GroupData anotherGroup)
         {
@@ -42,40 +38,12 @@ namespace addressbook_web_tests
             return Name.CompareTo(anotherGroup.Name);
         }
 
-        public string Name
-        { 
-            get 
-            { 
-                return name; 
-            }
-            set 
-            {
-                name = value;
-            }
-        }
+        public string Name { get; set; }
 
-        public string Header
-        {
-            get
-            {
-                return header;
-            }
-            set
-            { 
-                header = value; 
-            }
-        }
+        public string Header { get; set; }
 
-        public string Footer
-        {
-            get
-            {
-                return footer;
-            }
-            set
-            {
-                footer = value;
-            }
-        }
+        public string Footer { get; set; }
+
+        public string Id { get; set; }
     }
 }

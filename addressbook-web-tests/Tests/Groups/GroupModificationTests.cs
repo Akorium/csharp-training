@@ -17,13 +17,22 @@ namespace addressbook_web_tests
             };
             applicationManager.GroupHelper.CheckGroup(group_number);
             List<GroupData> oldgroups = applicationManager.GroupHelper.GetGroupList();
+            GroupData oldGroup = oldgroups[group_number];
             applicationManager.GroupHelper.Modify(group, group_number);
+            Assert.AreEqual(oldgroups.Count, applicationManager.GroupHelper.GetGroupsCount());
             List<GroupData> newgroups = applicationManager.GroupHelper.GetGroupList();
             oldgroups[group_number].Name = group.Name;
             oldgroups.Sort();
             newgroups.Sort();
             Assert.AreEqual(oldgroups, newgroups);
             applicationManager.AuthorizationHelper.LogoutFromAddressBook();
+            foreach (GroupData newGroup in newgroups)
+            {
+                if (newGroup.Id == oldGroup.Id)
+                {
+                    Assert.AreEqual(group.Name, newGroup.Name);
+                }
+            }
         }
     }
 }

@@ -39,17 +39,23 @@ namespace addressbook_web_tests
             }
             return this;
         }
+
+        private List<AddressBookEntryData> entriesCache = null;
+
         public List<AddressBookEntryData> GetEntryList()
         {
-            applicationManager.NavigationHelper.GoToHomePage();
-            List<AddressBookEntryData> entries = new List<AddressBookEntryData>();
-            string[] firstname = GetDataArray(By.XPath("//td[3]"));
-            string[] lastname = GetDataArray(By.XPath("//td[2]"));
-            for (int i = 0; i < firstname.Length; i++)
+            if (entriesCache == null)
             {
-                entries.Add(new AddressBookEntryData(firstname[i], lastname[i]));
+                entriesCache = new List<AddressBookEntryData>();
+                applicationManager.NavigationHelper.GoToHomePage();
+                string[] firstname = GetDataArray(By.XPath("//td[3]"));
+                string[] lastname = GetDataArray(By.XPath("//td[2]"));
+                for (int i = 0; i < firstname.Length; i++)
+                {
+                    entriesCache.Add(new AddressBookEntryData(firstname[i], lastname[i]));
+                }
             }
-            return entries;
+            return new List<AddressBookEntryData>(entriesCache);
         }
 
         private string[] GetDataArray(By locator)
@@ -78,6 +84,7 @@ namespace addressbook_web_tests
         public AddressBookEntryHelper SubmitAddressBookEntryCreation()
         {
             driver.FindElement(By.XPath("//input[@value='Enter']")).Click();
+            entriesCache = null;
             return this;
         }
         public AddressBookEntryHelper ReturnToHomePage()
@@ -93,6 +100,7 @@ namespace addressbook_web_tests
         public AddressBookEntryHelper SubmitAddressBookEntryModification()
         {
             driver.FindElement(By.XPath("//input[@value='Update']")).Click();
+            entriesCache = null;
             return this;
         }
         public AddressBookEntryHelper SelectAddressBookEntry(int number)
@@ -104,6 +112,7 @@ namespace addressbook_web_tests
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             driver.SwitchTo().Alert().Accept();
+            entriesCache = null;
             return this;
         }
     }
