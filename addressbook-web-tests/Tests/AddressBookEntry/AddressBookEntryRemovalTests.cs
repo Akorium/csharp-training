@@ -1,5 +1,4 @@
-﻿using addressbook_web_tests;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Collections.Generic;
 
 namespace addressbook_web_tests
@@ -7,15 +6,15 @@ namespace addressbook_web_tests
     [TestFixture]
     public class AddressBookEntryRemovalTests : AuthorizationTestBase
     {
-        private int entry_number = 0;
+        private readonly int _entryNumber = 0;
         [Test]
         public void AddressBookEntryRemovalTest()
         {
-            applicationManager.AddressBookEntryHelper.CheckEntry(entry_number);
+            applicationManager.AddressBookEntryHelper.CheckEntry(_entryNumber);
             List<AddressBookEntryData> oldentries = applicationManager.AddressBookEntryHelper.GetEntryList();
-            applicationManager.AddressBookEntryHelper.Remove(entry_number);
+            applicationManager.AddressBookEntryHelper.Remove(_entryNumber);
             List<AddressBookEntryData> newentries = applicationManager.AddressBookEntryHelper.GetEntryList();
-            oldentries.RemoveAt(entry_number);
+            oldentries.RemoveAt(_entryNumber);
             Assert.AreEqual(oldentries, newentries);
             applicationManager.AuthorizationHelper.LogoutFromAddressBook();
         }

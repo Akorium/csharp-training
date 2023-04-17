@@ -1,6 +1,5 @@
 ﻿using OpenQA.Selenium;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace addressbook_web_tests
 {
@@ -73,7 +72,7 @@ namespace addressbook_web_tests
 
         public bool IsThereAnyEntry(int number)
         {
-            return IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[" + number+2 + "]/td[1]/input"));
+            return IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[" + number + 2 + "]/td[1]/input"));
         }
         public AddressBookEntryHelper FillAddressBookEntryForm(AddressBookEntryData addressBookEntry)
         {
@@ -94,7 +93,7 @@ namespace addressbook_web_tests
         }
         public AddressBookEntryHelper GoToEditPage(int number)
         {
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + number+2 + "]/td[8]/a/img")).Click();
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + number + 2 + "]/td[8]/a/img")).Click();
             return this;
         }
         public AddressBookEntryHelper SubmitAddressBookEntryModification()
@@ -105,7 +104,7 @@ namespace addressbook_web_tests
         }
         public AddressBookEntryHelper SelectAddressBookEntry(int number)
         {
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + number+2 + "]/td[1]/input")).Click();
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + number + 2 + "]/td[1]/input")).Click();
             return this;
         }
         public AddressBookEntryHelper SubmitAddressBookEntryRemoval()

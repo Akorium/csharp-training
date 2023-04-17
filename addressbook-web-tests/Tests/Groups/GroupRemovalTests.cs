@@ -6,17 +6,17 @@ namespace addressbook_web_tests
     [TestFixture]
     public class GroupRemovalTests : AuthorizationTestBase
     {
-        private int group_number = 0;
+        private readonly int _groupNumber = 0;
         [Test]
         public void GroupRemovalTest()
         {
-            applicationManager.GroupHelper.CheckGroup(group_number);
+            applicationManager.GroupHelper.CheckGroup(_groupNumber);
             List<GroupData> oldgroups = applicationManager.GroupHelper.GetGroupList();
-            applicationManager.GroupHelper.Remove(group_number);
+            applicationManager.GroupHelper.Remove(_groupNumber);
             Assert.AreEqual(oldgroups.Count - 1, applicationManager.GroupHelper.GetGroupsCount());
             List<GroupData> newgroups = applicationManager.GroupHelper.GetGroupList();
-            GroupData toBeRemoved = oldgroups[group_number];
-            oldgroups.RemoveAt(group_number);
+            GroupData toBeRemoved = oldgroups[_groupNumber];
+            oldgroups.RemoveAt(_groupNumber);
             Assert.AreEqual(oldgroups, newgroups);
             foreach (GroupData group in newgroups)
             {

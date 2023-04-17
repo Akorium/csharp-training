@@ -4,22 +4,22 @@ namespace addressbook_web_tests
 {
     public class NavigationHelper : HelperBase
     {
-        private string baseURL;
+        private readonly string _baseURL;
         public NavigationHelper(ApplicationManager applicationManager, string baseURL) : base(applicationManager) 
         {
-            this.baseURL = baseURL;
+            this._baseURL = baseURL;
         }
         public void OpenAddressBookPage()
         {
-            if (driver.Url == baseURL)
+            if (driver.Url == _baseURL)
             {
                 return;
             }
-            driver.Navigate().GoToUrl(baseURL);
+            driver.Navigate().GoToUrl(_baseURL);
         }
         public void GoToGroupsPage()
         {
-            if (driver.Url == baseURL + "group.php" && IsElementPresent(By.XPath("//input[@value='New group']")))
+            if (driver.Url == _baseURL + "group.php" && IsElementPresent(By.XPath("//input[@value='New group']")))
             {
                 return;
             }
@@ -27,7 +27,7 @@ namespace addressbook_web_tests
         }
         public void GoToAddressBookEntryCreationPage()
         {
-            if (driver.Url == baseURL + "edit.php" && IsElementPresent(By.XPath("//input[@value='Enter']")))
+            if (driver.Url == _baseURL + "edit.php" && IsElementPresent(By.XPath("//input[@value='Enter']")))
             { 
                 return;
             }
@@ -35,7 +35,7 @@ namespace addressbook_web_tests
         }
         public void GoToHomePage()
         {
-            if (driver.Url == baseURL)
+            if (driver.Url == _baseURL)
             {
                 return;
             }

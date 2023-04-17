@@ -1,7 +1,5 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 
 namespace addressbook_web_tests
 {
@@ -12,14 +10,14 @@ namespace addressbook_web_tests
         [Test]
         public void AddressBookEntryCreationTest()
         {
-            AddressBookEntryData addressBookEntryData = new AddressBookEntryData("Test", "Test");
-            List<AddressBookEntryData> oldentries = applicationManager.AddressBookEntryHelper.GetEntryList();
+            AddressBookEntryData addressBookEntryData = new AddressBookEntryData("Firstname", "Lastname");
+            List<AddressBookEntryData> oldEntries = applicationManager.AddressBookEntryHelper.GetEntryList();
             applicationManager.AddressBookEntryHelper.Create(addressBookEntryData);
-            List<AddressBookEntryData> newentries = applicationManager.AddressBookEntryHelper.GetEntryList();
-            oldentries.Add(addressBookEntryData);
-            oldentries.Sort();
-            newentries.Sort();
-            Assert.AreEqual(oldentries, newentries);
+            List<AddressBookEntryData> newEntries = applicationManager.AddressBookEntryHelper.GetEntryList();
+            oldEntries.Add(addressBookEntryData);
+            oldEntries.Sort();
+            newEntries.Sort();
+            Assert.AreEqual(oldEntries, newEntries);
             applicationManager.AuthorizationHelper.LogoutFromAddressBook();
 
         }

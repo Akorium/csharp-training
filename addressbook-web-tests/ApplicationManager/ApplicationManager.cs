@@ -14,7 +14,7 @@ namespace addressbook_web_tests
         protected NavigationHelper navigationHelper;
         protected GroupHelper groupHelper;
         protected AddressBookEntryHelper addressBookEntryHelper;
-        private static ThreadLocal<ApplicationManager> applicationManager = new ThreadLocal<ApplicationManager>();
+        private static readonly ThreadLocal<ApplicationManager> applicationManager = new ThreadLocal<ApplicationManager>();
 
         private ApplicationManager() 
         {

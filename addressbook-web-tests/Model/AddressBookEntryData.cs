@@ -4,17 +4,14 @@ namespace addressbook_web_tests
 {
     public class AddressBookEntryData : IEquatable<AddressBookEntryData>, IComparable<AddressBookEntryData>
     {
-        private string firstname;
-        private string lastname;
-
         public AddressBookEntryData(string firstname, string lastname)
         { 
-            this.firstname = firstname;
-            this.lastname = lastname;
+            Firstname = firstname;
+            Lastname = lastname;
         }
         public bool Equals(AddressBookEntryData anotherEntry)
         {
-            if (Object.ReferenceEquals(anotherEntry, null))
+            if (anotherEntry is null)
             {
                 return false;
             }
@@ -35,34 +32,18 @@ namespace addressbook_web_tests
 
         public int CompareTo(AddressBookEntryData anotherEntry)
         {
-            if (Object.ReferenceEquals(anotherEntry, null))
+            if (anotherEntry is null)
             {
                 return 1;
             }
+            if (Lastname ==  anotherEntry.Lastname)
+            {
+                return Firstname.CompareTo(anotherEntry.Firstname);
+            }
             return Lastname.CompareTo(anotherEntry.Lastname);
         }
-        public string Firstname
-        { 
-            get 
-            { 
-                return firstname; 
-            }
-            set 
-            {
-                firstname = value;
-            }
-        }
+        public string Firstname { get; set; }
 
-        public string Lastname 
-        {
-            get
-            {
-                return lastname;
-            }
-            set
-            { 
-                lastname = value; 
-            }
-        }
+        public string Lastname { get; set; }
     }
 }

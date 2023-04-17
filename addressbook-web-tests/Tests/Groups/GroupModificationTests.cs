@@ -6,7 +6,7 @@ namespace addressbook_web_tests
     [TestFixture]
     public class GroupModifivationTests : AuthorizationTestBase
     {
-        private int group_number = 0;
+        private readonly int _groupNumber = 0;
         [Test]
         public void GroupModificationTest()
         {
@@ -15,13 +15,13 @@ namespace addressbook_web_tests
                 Header = null,
                 Footer = null
             };
-            applicationManager.GroupHelper.CheckGroup(group_number);
+            applicationManager.GroupHelper.CheckGroup(_groupNumber);
             List<GroupData> oldgroups = applicationManager.GroupHelper.GetGroupList();
-            GroupData oldGroup = oldgroups[group_number];
-            applicationManager.GroupHelper.Modify(group, group_number);
+            GroupData oldGroup = oldgroups[_groupNumber];
+            applicationManager.GroupHelper.Modify(group, _groupNumber);
             Assert.AreEqual(oldgroups.Count, applicationManager.GroupHelper.GetGroupsCount());
             List<GroupData> newgroups = applicationManager.GroupHelper.GetGroupList();
-            oldgroups[group_number].Name = group.Name;
+            oldgroups[_groupNumber].Name = group.Name;
             oldgroups.Sort();
             newgroups.Sort();
             Assert.AreEqual(oldgroups, newgroups);

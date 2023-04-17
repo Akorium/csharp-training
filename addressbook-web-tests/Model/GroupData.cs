@@ -10,7 +10,7 @@ namespace addressbook_web_tests
         }
         public bool Equals(GroupData anotherGroup)
         {
-            if (Object.ReferenceEquals(anotherGroup, null))
+            if (anotherGroup is null)
             {
                 return false;
             }
@@ -31,7 +31,7 @@ namespace addressbook_web_tests
 
         public int CompareTo(GroupData anotherGroup)
         {
-            if (Object.ReferenceEquals (anotherGroup, null))
+            if (anotherGroup is null)
             {
                 return 1;
             }
