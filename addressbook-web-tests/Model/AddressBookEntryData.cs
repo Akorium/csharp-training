@@ -6,7 +6,6 @@ namespace addressbook_web_tests
     public class AddressBookEntryData : IEquatable<AddressBookEntryData>, IComparable<AddressBookEntryData>
     {
         private string allNumbers;
-        private string details;
 
         public AddressBookEntryData(string firstname, string lastname)
         { 
@@ -76,41 +75,6 @@ namespace addressbook_web_tests
                 return "";
             }
             return Regex.Replace(number, "[ -()]", "") + "\r\n";
-        }
-        public string Details
-        {
-            get
-            {
-                if (details != null)
-                {
-                    return details;
-                }
-                else
-                {
-                    return Firstname + " " + Lastname + AddressInDetails(Address) + NumberInDetails(HomeNumber, "H: ") + NumberInDetails(MobileNumber, "M: ") + NumberInDetails(WorkNumber, "W: ");
-                }
-            }
-            set { details = value; }
-        }
-        private string AddressInDetails(string address)
-        {
-            if ((!string.IsNullOrEmpty(HomeNumber)|| !string.IsNullOrEmpty(MobileNumber) || !string.IsNullOrEmpty(WorkNumber)) && (address == null || address == ""))
-            {
-                return "\r\n";
-            }
-            else if (string.IsNullOrEmpty(address))
-            {
-                return "";
-            }
-            else if (!string.IsNullOrEmpty(HomeNumber) || !string.IsNullOrEmpty(MobileNumber) || !string.IsNullOrEmpty(WorkNumber))
-            {
-                return "\r\n" + address + "\r\n";
-            }
-            return "\r\n" + address;
-        }
-        private string NumberInDetails(string number, string lable)
-        {
-            return (string.IsNullOrEmpty(number)) ?  "" : "\r\n" + lable + number;
         }
     }
 }

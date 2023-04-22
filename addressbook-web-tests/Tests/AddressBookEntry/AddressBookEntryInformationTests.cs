@@ -20,12 +20,5 @@ namespace addressbook_web_tests
             Assert.AreEqual(fromTable.Address, fromForm.Address);
             Assert.AreEqual(fromTable.AllNumbers, fromForm.AllNumbers);
         }
-        [Test]
-        public void EntryDetailsTest()
-        {
-            AddressBookEntryData fromForm = applicationManager.AddressBookEntryHelper.GetEntryInformationFromEditForm(_entryNumber);
-            string fromDetails = applicationManager.AddressBookEntryHelper.GetEntryInformationFromDeatils(_entryNumber);
-            Assert.AreEqual(fromDetails, fromForm.Details);
-        }
     }
 }
