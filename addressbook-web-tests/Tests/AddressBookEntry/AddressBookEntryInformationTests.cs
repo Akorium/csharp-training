@@ -1,9 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace addressbook_web_tests
 {
@@ -19,6 +14,13 @@ namespace addressbook_web_tests
             Assert.AreEqual(fromTable, fromForm);
             Assert.AreEqual(fromTable.Address, fromForm.Address);
             Assert.AreEqual(fromTable.AllNumbers, fromForm.AllNumbers);
+        }
+        [Test]
+        public void EntryDetailsTest()
+        {
+            AddressBookEntryData fromForm = applicationManager.AddressBookEntryHelper.GetEntryInformationFromEditForm(_entryNumber);
+            string fromDetails = applicationManager.AddressBookEntryHelper.GetEntryInformationFromDeatils(_entryNumber);
+            Assert.AreEqual(fromDetails, fromForm.Details);
         }
     }
 }
