@@ -87,30 +87,14 @@ namespace addressbook_web_tests
                 }
                 else
                 {
-                    return Firstname + " " + Lastname + AddressInDetails(Address) + NumberInDetails(HomeNumber, "H: ") + NumberInDetails(MobileNumber, "M: ") + NumberInDetails(WorkNumber, "W: ");
+                    return (DataInDetails(Firstname, "") + DataInDetails(Lastname, " ") + DataInDetails(Address, "\r\n") + "\r\n" + DataInDetails(HomeNumber, "\r\n" + "H: ") + DataInDetails(MobileNumber, "\r\n" + "M: ") + DataInDetails(WorkNumber, "\r\n" + "W: ")).Trim();
                 }
             }
             set { details = value; }
         }
-        private string AddressInDetails(string address)
+        private string DataInDetails(string data, string label)
         {
-            if ((!string.IsNullOrEmpty(HomeNumber) || !string.IsNullOrEmpty(MobileNumber) || !string.IsNullOrEmpty(WorkNumber)) && (address == null || address == ""))
-            {
-                return "\r\n";
-            }
-            else if (string.IsNullOrEmpty(address))
-            {
-                return "";
-            }
-            else if (!string.IsNullOrEmpty(HomeNumber) || !string.IsNullOrEmpty(MobileNumber) || !string.IsNullOrEmpty(WorkNumber))
-            {
-                return "\r\n" + address + "\r\n";
-            }
-            return "\r\n" + address;
-        }
-        private string NumberInDetails(string number, string label)
-        {
-            return (string.IsNullOrEmpty(number)) ? "" : "\r\n" + label + number;
+            return (string.IsNullOrEmpty(data)) ? "" : label + data;
         }
     }
 }
