@@ -23,7 +23,13 @@ namespace addressbook_web_tests
         public bool IsAuthorized(AccountData account)
         {
             return IsAuthorized()
-                && driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text == "(" + account.Username + ")";
+                && GetAuthorizedUserName() == account.Username;
+        }
+
+        private string GetAuthorizedUserName()
+        {
+            string text = driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text;
+            return text.Substring(1, text.Length - 2);
         }
 
         public bool IsAuthorized()

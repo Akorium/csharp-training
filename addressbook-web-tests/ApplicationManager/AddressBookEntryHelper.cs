@@ -1,5 +1,7 @@
 ﻿using OpenQA.Selenium;
+using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace addressbook_web_tests
 {
@@ -113,6 +115,47 @@ namespace addressbook_web_tests
             driver.SwitchTo().Alert().Accept();
             entriesCache = null;
             return this;
+        }
+
+        public AddressBookEntryData GetEntryInformationFromTable(int number)
+        {
+            applicationManager.NavigationHelper.GoToHomePage();
+            IList<IWebElement> cells = driver.FindElements(By.XPath("//table[@id='maintable']/tbody/tr[" + number + 2 + "]/td"));
+            string lastName = cells[1].Text;
+            string firstName = cells[2].Text;
+            string address = cells[3].Text;
+            string allNumbers = cells[5].Text;
+            return new AddressBookEntryData(firstName, lastName)
+            {
+                Address = address,
+                AllNumbers = allNumbers
+            };
+        }
+
+        public AddressBookEntryData GetEntryInformationFromEditForm(int number)
+        {
+            applicationManager.NavigationHelper.GoToHomePage();
+            GoToEditPage(number);
+            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+            string homeNumber = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobileNumber = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+            string workNumber = driver.FindElement(By.Name("work")).GetAttribute("value");
+            return new AddressBookEntryData(firstName, lastName)
+            {
+                Address = address,
+                HomeNumber = homeNumber,
+                MobileNumber = mobileNumber,
+                WorkNumber = workNumber
+            };
+        }
+        public int GetNumberOfEntries()
+        {
+            applicationManager.NavigationHelper.GoToHomePage();
+            string text = driver.FindElement(By.TagName("label")).Text;
+            Match match = new Regex(@"\d+").Match(text);
+            return Int32.Parse(match.Value);
         }
     }
 }

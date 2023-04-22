@@ -112,10 +112,24 @@ namespace addressbook_web_tests
                 ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
                 foreach (IWebElement element in elements)
                 {
-                    groupsCache.Add(new GroupData(element.Text)
+                    groupsCache.Add(new GroupData(null)
                     {
                         Id = element.FindElement(By.TagName("input")).GetAttribute("value")
                     });
+                }
+                string allGroupsNames = driver.FindElement(By.CssSelector("div#content form")).Text;
+                string [] parts = allGroupsNames.Split('\n');
+                int shift = groupsCache.Count - parts.Length;
+                for (int i = 0; i < groupsCache.Count; i++)
+                {
+                    if (i < shift)
+                    {
+                        groupsCache[i].Name = "";
+                    }
+                    else
+                    {
+                        groupsCache[i].Name = parts[i-shift].Trim();
+                    }
                 }
             }
             return new List<GroupData>(groupsCache);

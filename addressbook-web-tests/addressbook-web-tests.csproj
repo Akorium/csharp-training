@@ -68,8 +68,10 @@
     <Compile Include="ApplicationManager\ApplicationManager.cs" />
     <Compile Include="ApplicationManager\AuthorizationHelper.cs" />
     <Compile Include="ApplicationManager\GroupHelper.cs" />
+    <Compile Include="Tests\AddressBookEntry\AddressBookEntryInformationTests.cs" />
     <Compile Include="Tests\AddressBookEntry\AddressBookEntryModificationTests.cs" />
     <Compile Include="Tests\AddressBookEntry\AddressBookEntryRemovalTests.cs" />
+    <Compile Include="Tests\AddressBookEntry\SearchTests.cs" />
     <Compile Include="Tests\AuthorizationTestBase.cs" />
     <Compile Include="Tests\AuthorizationTests.cs" />
     <Compile Include="Tests\Groups\GroupModificationTests.cs" />

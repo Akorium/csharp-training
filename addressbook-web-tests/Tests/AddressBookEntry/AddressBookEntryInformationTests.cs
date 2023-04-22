@@ -1,0 +1,24 @@
+﻿using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace addressbook_web_tests
+{
+    [TestFixture]
+    public class AddressBookEntryInformationTests : AuthorizationTestBase
+    {
+        private readonly int _entryNumber = 0;
+        [Test]
+        public void EntryInformationTest()
+        {
+            AddressBookEntryData fromTable = applicationManager.AddressBookEntryHelper.GetEntryInformationFromTable(_entryNumber);
+            AddressBookEntryData fromForm = applicationManager.AddressBookEntryHelper.GetEntryInformationFromEditForm(_entryNumber);
+            Assert.AreEqual(fromTable, fromForm);
+            Assert.AreEqual(fromTable.Address, fromForm.Address);
+            Assert.AreEqual(fromTable.AllNumbers, fromForm.AllNumbers);
+        }
+    }
+}
