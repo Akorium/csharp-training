@@ -157,5 +157,19 @@ namespace addressbook_web_tests
             Match match = new Regex(@"\d+").Match(text);
             return Int32.Parse(match.Value);
         }
+
+        public string GetEntryInformationFromDeatils(int entryNumber)
+        {
+            applicationManager.NavigationHelper.GoToHomePage();
+            GoToDetailsPage(entryNumber);
+            string allDeatils = driver.FindElement(By.CssSelector("div#content")).Text;
+            return allDeatils;
+        }
+
+        public AddressBookEntryHelper GoToDetailsPage(int entryNumber)
+        {
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + entryNumber + 2 + "]/td[7]/a/img")).Click();
+            return this;
+        }
     }
 }
