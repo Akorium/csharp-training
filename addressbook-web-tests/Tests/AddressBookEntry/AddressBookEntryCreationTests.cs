@@ -6,11 +6,21 @@ namespace addressbook_web_tests
     [TestFixture]
     public class AddressBookEntryCreationTests : AuthorizationTestBase
     {
- 
-        [Test]
-        public void AddressBookEntryCreationTest()
+        public static IEnumerable<AddressBookEntryData> RandomEntryDataProvider()
         {
-            AddressBookEntryData addressBookEntryData = new AddressBookEntryData("Firstname", "Lastname");
+            List<AddressBookEntryData> entries = new List<AddressBookEntryData>();
+            for (int i = 0; i < 5; i++)
+            {
+                string firstname = GenerateRandomString(30).Replace("'", "").Replace(@"\", "").Replace("<", "");
+                string lastname = GenerateRandomString(30).Replace("'", "").Replace(@"\", "").Replace("<", "");
+                entries.Add(new AddressBookEntryData(firstname, lastname));
+            }
+            return entries;
+        }
+
+        [Test, TestCaseSource("RandomEntryDataProvider")]
+        public void AddressBookEntryCreationTest(AddressBookEntryData addressBookEntryData)
+        {
             List<AddressBookEntryData> oldEntries = applicationManager.AddressBookEntryHelper.GetEntryList();
             applicationManager.AddressBookEntryHelper.Create(addressBookEntryData);
             List<AddressBookEntryData> newEntries = applicationManager.AddressBookEntryHelper.GetEntryList();

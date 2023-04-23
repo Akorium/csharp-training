@@ -31,7 +31,7 @@ namespace addressbook_web_tests
         }
         public override string ToString()
         {
-            return "Firstname & Lastname=" + Firstname + " " + Lastname;
+            return "Firstname = " + Firstname + ";\n" + "Lastname = " + Lastname;
         }
 
         public int CompareTo(AddressBookEntryData anotherEntry)

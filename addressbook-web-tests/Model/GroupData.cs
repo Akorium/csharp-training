@@ -26,7 +26,7 @@ namespace addressbook_web_tests
         }
         public override string ToString()
         {
-            return "name=" + Name;
+            return "name=" + Name + ";\nheader= " + Header + ";\nFooter=" + Footer;
         }
 
         public int CompareTo(GroupData anotherGroup)
