@@ -142,12 +142,18 @@ namespace addressbook_web_tests
             string homeNumber = driver.FindElement(By.Name("home")).GetAttribute("value");
             string mobileNumber = driver.FindElement(By.Name("mobile")).GetAttribute("value");
             string workNumber = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string email = driver.FindElement(By.Name("email")).GetAttribute("value");
+            string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
+            string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
             return new AddressBookEntryData(firstName, lastName)
             {
                 Address = address,
                 HomeNumber = homeNumber,
                 MobileNumber = mobileNumber,
-                WorkNumber = workNumber
+                WorkNumber = workNumber,
+                EMail = email,
+                EMail2 = email2,
+                Email3 = email3
             };
         }
         public int GetNumberOfEntries()

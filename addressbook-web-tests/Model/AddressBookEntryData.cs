@@ -47,12 +47,15 @@ namespace addressbook_web_tests
             return Lastname.CompareTo(anotherEntry.Lastname);
         }
         public string Firstname { get; set; }
-
         public string Lastname { get; set; }
         public string Address { get; set; }
         public string HomeNumber { get; set; }
         public string MobileNumber { get; set; }
         public string WorkNumber { get; set; }
+        public string EMail { get; set; }
+        public string EMail2 { get; set; }
+        public string Email3 { get; set; }
+
         public string AllNumbers
         {
             get
@@ -87,7 +90,10 @@ namespace addressbook_web_tests
                 }
                 else
                 {
-                    return (DataInDetails(Firstname, "") + DataInDetails(Lastname, " ") + DataInDetails(Address, "\r\n") + "\r\n" + DataInDetails(HomeNumber, "\r\n" + "H: ") + DataInDetails(MobileNumber, "\r\n" + "M: ") + DataInDetails(WorkNumber, "\r\n" + "W: ")).Trim();
+                    return (DataInDetails(Firstname, "") + DataInDetails(Lastname, " ") + DataInDetails(Address, "\r\n") 
+                        + "\r\n" + DataInDetails(HomeNumber, "\r\n" + "H: ") + DataInDetails(MobileNumber, "\r\n" + "M: ") 
+                        + DataInDetails(WorkNumber, "\r\n" + "W: ") + DataInDetails(EMail, "\r\n")
+                        + DataInDetails(EMail2, "\r\n") + DataInDetails(Email3, "\r\n")).Trim();
                 }
             }
             set { details = value; }
