@@ -5,9 +5,9 @@ namespace addressbook_web_tests
     public class NavigationHelper : HelperBase
     {
         private readonly string _baseURL;
-        public NavigationHelper(ApplicationManager applicationManager, string baseURL) : base(applicationManager) 
+        public NavigationHelper(ApplicationManager applicationManager, string baseURL) : base(applicationManager)
         {
-            this._baseURL = baseURL;
+            _baseURL = baseURL;
         }
         public void OpenAddressBookPage()
         {
@@ -28,7 +28,7 @@ namespace addressbook_web_tests
         public void GoToAddressBookEntryCreationPage()
         {
             if (driver.Url == _baseURL + "edit.php" && IsElementPresent(By.XPath("//input[@value='Enter']")))
-            { 
+            {
                 return;
             }
             driver.FindElement(By.LinkText("add new")).Click();
