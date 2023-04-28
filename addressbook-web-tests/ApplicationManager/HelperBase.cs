@@ -18,13 +18,12 @@ namespace addressbook_web_tests
                 driver.FindElement(locator).Clear();
                 driver.FindElement(locator).SendKeys(data);
             }
-        
         }
         public bool IsElementPresent(By by)
         {
             try
             {
-                driver.FindElement(by);
+                _ = driver.FindElement(by);
                 return true;
             }
             catch (NoSuchElementException)

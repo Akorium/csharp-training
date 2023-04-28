@@ -10,7 +10,6 @@ namespace addressbook_web_tests
         [Test]
         public void SearchTest()
         {
-            
             Console.Out.Write(applicationManager.AddressBookEntryHelper.GetNumberOfEntries());
         }
     }

@@ -16,7 +16,7 @@ namespace addressbook_web_tests
         protected AddressBookEntryHelper addressBookEntryHelper;
         private static readonly ThreadLocal<ApplicationManager> applicationManager = new ThreadLocal<ApplicationManager>();
 
-        private ApplicationManager() 
+        private ApplicationManager()
         {
             driver = new FirefoxDriver();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0.06); //depends on machine performance
@@ -44,45 +44,15 @@ namespace addressbook_web_tests
             {
                 ApplicationManager newInstance = new ApplicationManager();
                 newInstance.NavigationHelper.OpenAddressBookPage();
-                applicationManager.Value = newInstance;               
+                applicationManager.Value = newInstance;
             }
             return applicationManager.Value;
 
         }
-        public IWebDriver Driver
-        {
-            get
-            {
-                return driver;
-            }
-        }
-        public AuthorizationHelper AuthorizationHelper
-        { 
-            get 
-            { 
-                return authorizationHelper; 
-            } 
-        }
-        public NavigationHelper NavigationHelper
-        {
-            get
-            {
-                return navigationHelper;
-            }
-        }
-        public GroupHelper GroupHelper
-        {
-            get
-            {
-                return groupHelper;
-            }
-        }
-        public AddressBookEntryHelper AddressBookEntryHelper
-        {
-            get
-            {
-                return addressBookEntryHelper;
-            }
-        }
+        public IWebDriver Driver => driver;
+        public AuthorizationHelper AuthorizationHelper => authorizationHelper;
+        public NavigationHelper NavigationHelper => navigationHelper;
+        public GroupHelper GroupHelper => groupHelper;
+        public AddressBookEntryHelper AddressBookEntryHelper => addressBookEntryHelper;
     }
 }

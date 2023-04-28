@@ -8,7 +8,7 @@ namespace addressbook_web_tests
     {
         private readonly int _entryNumber = 0;
         [Test]
-        public void AddressBookEntryModificationTest() 
+        public void AddressBookEntryModificationTest()
         {
             AddressBookEntryData addressBookEntryData = new AddressBookEntryData("newFirstname", "newLastname");
             applicationManager.AddressBookEntryHelper.CheckEntry(_entryNumber);

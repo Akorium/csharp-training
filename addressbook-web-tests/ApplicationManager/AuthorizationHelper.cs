@@ -4,12 +4,12 @@ namespace addressbook_web_tests
 {
     public class AuthorizationHelper : HelperBase
     {
-        public AuthorizationHelper(ApplicationManager applicationManager) : base(applicationManager) {}
+        public AuthorizationHelper(ApplicationManager applicationManager) : base(applicationManager) { }
         public void AddressBookAuthorization(AccountData account)
         {
             if (IsAuthorized())
             {
-                if(IsAuthorized(account))
+                if (IsAuthorized(account))
                 {
                     return;
                 }
@@ -42,7 +42,7 @@ namespace addressbook_web_tests
             if (IsAuthorized())
             {
                 driver.FindElement(By.LinkText("Logout")).Click();
-                driver.FindElement(By.Name("user"));
+                _ = driver.FindElement(By.Name("user"));
             }
 
         }

@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -8,37 +7,33 @@ namespace addressbook_web_tests
     public class AddressBookEntryHelper : HelperBase
     {
         public AddressBookEntryHelper(ApplicationManager applicationManager) : base(applicationManager) { }
-        public AddressBookEntryHelper Create(AddressBookEntryData addressBookEntryData)
+        public void Create(AddressBookEntryData addressBookEntryData)
         {
             applicationManager.NavigationHelper.GoToAddressBookEntryCreationPage();
             FillAddressBookEntryForm(addressBookEntryData);
             SubmitAddressBookEntryCreation();
             ReturnToHomePage();
-            return this;
         }
-        public AddressBookEntryHelper Modify(AddressBookEntryData addressBookEntryData, int number)
+        public void Modify(AddressBookEntryData addressBookEntryData, int number)
         {
             GoToEditPage(number);
             FillAddressBookEntryForm(addressBookEntryData);
             SubmitAddressBookEntryModification();
             ReturnToHomePage();
-            return this;
         }
-        public AddressBookEntryHelper Remove(int number)
+        public void Remove(int number)
         {
             SelectAddressBookEntry(number);
             SubmitAddressBookEntryRemoval();
             applicationManager.NavigationHelper.GoToHomePage();
-            return this;
         }
-        public AddressBookEntryHelper CheckEntry(int number)
+        public void CheckEntry(int number)
         {
             if (!IsThereAnyEntry(number))
             {
                 AddressBookEntryData addressBookEntryData = new AddressBookEntryData("Test", "Test");
                 Create(addressBookEntryData);
             }
-            return this;
         }
 
         private List<AddressBookEntryData> entriesCache = null;
@@ -76,45 +71,38 @@ namespace addressbook_web_tests
         {
             return IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[" + number + 2 + "]/td[1]/input"));
         }
-        public AddressBookEntryHelper FillAddressBookEntryForm(AddressBookEntryData addressBookEntry)
+        public void FillAddressBookEntryForm(AddressBookEntryData addressBookEntry)
         {
             Insert(By.Name("firstname"), addressBookEntry.Firstname);
             Insert(By.Name("lastname"), addressBookEntry.Lastname);
-            return this;
         }
-        public AddressBookEntryHelper SubmitAddressBookEntryCreation()
+        public void SubmitAddressBookEntryCreation()
         {
             driver.FindElement(By.XPath("//input[@value='Enter']")).Click();
             entriesCache = null;
-            return this;
         }
-        public AddressBookEntryHelper ReturnToHomePage()
+        public void ReturnToHomePage()
         {
             driver.FindElement(By.LinkText("home page")).Click();
-            return this;
         }
-        public AddressBookEntryHelper GoToEditPage(int number)
+        public void GoToEditPage(int number)
         {
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + number + 2 + "]/td[8]/a/img")).Click();
-            return this;
         }
-        public AddressBookEntryHelper SubmitAddressBookEntryModification()
+        public void SubmitAddressBookEntryModification()
         {
             driver.FindElement(By.XPath("//input[@value='Update']")).Click();
             entriesCache = null;
-            return this;
         }
-        public AddressBookEntryHelper SelectAddressBookEntry(int number)
+        public void SelectAddressBookEntry(int number)
         {
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + number + 2 + "]/td[1]/input")).Click();
-            return this;
         }
-        public AddressBookEntryHelper SubmitAddressBookEntryRemoval()
+        public void SubmitAddressBookEntryRemoval()
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             driver.SwitchTo().Alert().Accept();
             entriesCache = null;
-            return this;
         }
 
         public AddressBookEntryData GetEntryInformationFromTable(int number)
@@ -161,7 +149,7 @@ namespace addressbook_web_tests
             applicationManager.NavigationHelper.GoToHomePage();
             string text = driver.FindElement(By.TagName("label")).Text;
             Match match = new Regex(@"\d+").Match(text);
-            return Int32.Parse(match.Value);
+            return int.Parse(match.Value);
         }
         public string GetEntryInformationFromDeatils(int entryNumber)
         {
@@ -171,10 +159,9 @@ namespace addressbook_web_tests
             return allDeatils;
         }
 
-        public AddressBookEntryHelper GoToDetailsPage(int entryNumber)
+        public void GoToDetailsPage(int entryNumber)
         {
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + entryNumber + 2 + "]/td[7]/a/img")).Click();
-            return this;
         }
     }
 }

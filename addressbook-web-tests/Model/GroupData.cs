@@ -5,20 +5,12 @@ namespace addressbook_web_tests
     public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
         public GroupData(string name)
-        { 
-            Name = name; 
+        {
+            Name = name;
         }
         public bool Equals(GroupData anotherGroup)
         {
-            if (anotherGroup is null)
-            {
-                return false;
-            }
-            if (Object.ReferenceEquals(this, anotherGroup))
-            {
-                return true;
-            }
-            return Name == anotherGroup.Name;
+            return !(anotherGroup is null) && (ReferenceEquals(this, anotherGroup) || Name == anotherGroup.Name);
         }
         public override int GetHashCode()
         {
@@ -31,11 +23,7 @@ namespace addressbook_web_tests
 
         public int CompareTo(GroupData anotherGroup)
         {
-            if (anotherGroup is null)
-            {
-                return 1;
-            }
-            return Name.CompareTo(anotherGroup.Name);
+            return anotherGroup is null ? 1 : Name.CompareTo(anotherGroup.Name);
         }
 
         public string Name { get; set; }
