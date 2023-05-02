@@ -20,7 +20,7 @@ namespace addressbook_web_tests
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < l; i++)
             {
-                _ = builder.Append(Convert.ToChar(65 + Convert.ToInt32(random.NextDouble() * 25)));
+                _ = builder.Append(Convert.ToChar(32 + Convert.ToInt32(random.NextDouble() * 65)));
             }
             return builder.ToString();
         }

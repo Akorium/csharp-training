@@ -1,5 +1,9 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
+using System.Xml.Serialization;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace addressbook_web_tests
 {
@@ -11,7 +15,7 @@ namespace addressbook_web_tests
             List<GroupData> groups = new List<GroupData>();
             for (int i = 0; i < 5; i++)
             {
-                groups.Add(new GroupData(GenerateRandomString(30).Replace("'", "").Replace(@"\", "").Replace("<", "").Replace(" ", ""))
+                groups.Add(new GroupData(GenerateRandomString(30).Replace("'", "").Replace(@"\", "").Replace("<", ""))
                 {
                     Header = GenerateRandomString(100).Replace("'", "").Replace(@"\", "").Replace("<", ""),
                     Footer = GenerateRandomString(100).Replace("'", "").Replace(@"\", "").Replace("<", "")
@@ -19,7 +23,57 @@ namespace addressbook_web_tests
             }
             return groups;
         }
-        [Test, TestCaseSource("RandomGroupDataProvider")]
+        public static IEnumerable<GroupData> GroupDataFromCSV()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            string[] lines = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), @"TestData", @"Groups", @"groups.csv"));
+            foreach (string l in lines)
+            {
+                string[] parts = l.Split(';');
+                groups.Add(new GroupData(parts[0])
+                {
+                    Header = parts[1],
+                    Footer = parts[2]
+                });
+            }
+            return groups;
+        }
+        public static IEnumerable<GroupData> GroupDataFromXML()
+        {
+            return (List<GroupData>)
+                new XmlSerializer(typeof(List<GroupData>))
+                .Deserialize(new StreamReader(Path.Combine(Directory.GetCurrentDirectory(), @"TestData", @"Groups", @"groups.xml")));
+        }
+        public static IEnumerable<GroupData> GroupDataFromJSON()
+        {
+            return JsonConvert.DeserializeObject<List<GroupData>>(File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), @"TestData", @"Groups", @"groups.json")));
+        }
+        public static IEnumerable<GroupData> GroupDataFromExcel()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            Excel.Application application = new Excel.Application
+            {
+                Visible = true
+            };
+            Excel.Workbook workbook = application.Workbooks.Open(Path.Combine(Directory.GetCurrentDirectory(), @"TestData", @"Groups", @"groups.xlsx"));
+            Excel.Worksheet sheet = workbook.ActiveSheet;
+            Excel.Range range = sheet.UsedRange;
+            for (int i = 1; i <= range.Rows.Count; i++)
+            {
+                groups.Add(new GroupData()
+                {
+                    Name = range.Cells[i, 1].Value,
+                    Header = range.Cells[i, 2].Value,
+                    Footer = range.Cells[i, 3].Value
+                });
+            }
+            workbook.Close();
+            application.Visible = false;
+            application.Quit();
+            return groups;
+        }
+
+        [Test, TestCaseSource("GroupDataFromXML")]
         public void GroupCreationTest(GroupData group)
         {
             List<GroupData> oldgroups = applicationManager.GroupHelper.GetGroupList();
