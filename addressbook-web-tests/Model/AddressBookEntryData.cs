@@ -7,7 +7,9 @@ namespace addressbook_web_tests
     {
         private string allNumbers;
         private string details;
-
+        public AddressBookEntryData()
+        {
+        }
         public AddressBookEntryData(string firstname, string lastname)
         {
             Firstname = firstname;
@@ -57,13 +59,17 @@ namespace addressbook_web_tests
         {
             get => details ?? (DataInDetails(Firstname, "") + DataInDetails(Lastname, " ") + DataInDetails(Address, "\r\n")
                         + "\r\n" + DataInDetails(HomeNumber, "\r\n" + "H: ") + DataInDetails(MobileNumber, "\r\n" + "M: ")
-                        + DataInDetails(WorkNumber, "\r\n" + "W: ") + DataInDetails(EMail, "\r\n")
+                        + DataInDetails(WorkNumber, "\r\n" + "W: ") + LineBreak(HomeNumber, MobileNumber, WorkNumber) + DataInDetails(EMail, "\r\n")
                         + DataInDetails(EMail2, "\r\n") + DataInDetails(Email3, "\r\n")).Trim();
             set => details = value;
         }
         private string DataInDetails(string data, string label)
         {
             return string.IsNullOrEmpty(data) ? "" : label + data;
+        }
+        private string LineBreak(string data1, string data2, string data3)
+        {
+            return string.IsNullOrEmpty(data1) && string.IsNullOrEmpty(data2) && string.IsNullOrEmpty(data3) ? "" : "\r\n";
         }
     }
 }
