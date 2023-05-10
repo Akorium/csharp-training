@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -21,9 +22,25 @@ namespace addressbook_web_tests
             SubmitAddressBookEntryModification();
             ReturnToHomePage();
         }
+        public void Modify(AddressBookEntryData addressBookEntryData, AddressBookEntryData toBeModified)
+        {
+            applicationManager.NavigationHelper.GoToHomePage();
+            GoToEditPage(toBeModified.Id);
+            FillAddressBookEntryForm(addressBookEntryData);
+            SubmitAddressBookEntryModification();
+            ReturnToHomePage();
+        }
+
         public void Remove(int number)
         {
             SelectAddressBookEntry(number);
+            SubmitAddressBookEntryRemoval();
+            applicationManager.NavigationHelper.GoToHomePage();
+        }
+        public void Remove(AddressBookEntryData toBeRemoved)
+        {
+            applicationManager.NavigationHelper.GoToHomePage();
+            SelectAddressBookEntry(toBeRemoved.Id);
             SubmitAddressBookEntryRemoval();
             applicationManager.NavigationHelper.GoToHomePage();
         }
@@ -31,9 +48,29 @@ namespace addressbook_web_tests
         {
             if (!IsThereAnyEntry(number))
             {
-                AddressBookEntryData addressBookEntryData = new AddressBookEntryData("Test", "Test");
-                Create(addressBookEntryData);
+                CreateDefaultEntry();
             }
+        }
+
+        private void CreateDefaultEntry()
+        {
+            AddressBookEntryData addressBookEntryData = new AddressBookEntryData("Test", "Test");
+            Create(addressBookEntryData);
+        }
+
+        public List<AddressBookEntryData> CheckEntryInDB(int entryNumber)
+        {
+            List<AddressBookEntryData> entriesInDB = AddressBookEntryData.GetAllData();
+            int entriesToAdd = ++entryNumber - entriesInDB.Count;
+            if (entriesToAdd > 0)
+            {
+                for (int i = 0; i < entriesToAdd; i++)
+                {
+                    CreateDefaultEntry();
+                }
+                return AddressBookEntryData.GetAllData();
+            }
+            return entriesInDB;
         }
 
         private List<AddressBookEntryData> entriesCache = null;
@@ -89,14 +126,14 @@ namespace addressbook_web_tests
         {
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + number + 2 + "]/td[8]/a/img")).Click();
         }
+        private void GoToEditPage(string id)
+        {
+            driver.FindElement(By.XPath("//a[@href='edit.php?id=" + id + "']")).Click();
+        }
         public void SubmitAddressBookEntryModification()
         {
             driver.FindElement(By.XPath("//input[@value='Update']")).Click();
             entriesCache = null;
-        }
-        public void SelectAddressBookEntry(int number)
-        {
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + number + 2 + "]/td[1]/input")).Click();
         }
         public void SubmitAddressBookEntryRemoval()
         {
@@ -162,6 +199,39 @@ namespace addressbook_web_tests
         public void GoToDetailsPage(int entryNumber)
         {
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + entryNumber + 2 + "]/td[7]/a/img")).Click();
+        }
+
+        public void AddEntryToGroup(AddressBookEntryData entry, GroupData group)
+        {
+            applicationManager.NavigationHelper.GoToHomePage();
+            ClearGroupFilter();
+            SelectAddressBookEntry(entry.Id);
+            SelectGroupToAdd(group.Name);
+            SubmitAddingEntryToGroup();
+        }
+
+        public void SubmitAddingEntryToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+        }
+
+        public void SelectGroupToAdd(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+        }
+        public void SelectAddressBookEntry(int number)
+        {
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + number + 2 + "]/td[1]/input")).Click();
+        }
+
+        public void SelectAddressBookEntry(string id)
+        {
+            driver.FindElement(By.Id(id)).Click();
+        }
+
+        public void ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
         }
     }
 }

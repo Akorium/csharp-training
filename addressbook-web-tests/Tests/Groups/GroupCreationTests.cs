@@ -1,14 +1,15 @@
-﻿using NUnit.Framework;
+﻿using Newtonsoft.Json;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
 using System.Xml.Serialization;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class GroupCreationTests : AuthorizationTestBase
+    public class GroupCreationTests : GroupTestBase
     {
         public static IEnumerable<GroupData> RandomGroupDataProvider()
         {
@@ -76,15 +77,16 @@ namespace addressbook_web_tests
         [Test, TestCaseSource("GroupDataFromXML")]
         public void GroupCreationTest(GroupData group)
         {
-            List<GroupData> oldgroups = applicationManager.GroupHelper.GetGroupList();
+            List<GroupData> oldgroups = GroupData.GetAllData();
             applicationManager.GroupHelper.Create(group);
+
             Assert.AreEqual(oldgroups.Count + 1, applicationManager.GroupHelper.GetGroupsCount());
-            List<GroupData> newgroups = applicationManager.GroupHelper.GetGroupList();
+
+            List<GroupData> newgroups = GroupData.GetAllData();
             oldgroups.Add(group);
             oldgroups.Sort();
             newgroups.Sort();
             Assert.AreEqual(oldgroups, newgroups);
-            applicationManager.AuthorizationHelper.LogoutFromAddressBook();
         }
         [Test]
         public void BadNameGroupCreationTest()
@@ -94,14 +96,21 @@ namespace addressbook_web_tests
                 Header = "",
                 Footer = ""
             };
-            List<GroupData> oldgroups = applicationManager.GroupHelper.GetGroupList();
+            List<GroupData> oldgroups = GroupData.GetAllData();
             applicationManager.GroupHelper.Create(group);
             Assert.AreEqual(oldgroups.Count, applicationManager.GroupHelper.GetGroupsCount());
-            List<GroupData> newgroups = applicationManager.GroupHelper.GetGroupList();
+            List<GroupData> newgroups = GroupData.GetAllData();
             oldgroups.Sort();
             newgroups.Sort();
             Assert.AreEqual(oldgroups, newgroups);
-
+        }
+        [Test]
+        public void TestDBConnectivity()
+        {
+            foreach (AddressBookEntryData entry in AddressBookEntryData.GetAllData())
+            {
+                Console.Out.WriteLine(entry.Deprecated);
+            }
         }
     }
 }

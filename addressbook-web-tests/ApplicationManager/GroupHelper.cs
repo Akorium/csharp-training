@@ -21,6 +21,19 @@ namespace addressbook_web_tests
             SubmitGroupRemoval();
             ReturnToGroupsPage();
         }
+        public void Remove(GroupData group)
+        {
+            applicationManager.NavigationHelper.GoToGroupsPage();
+            SelectGroup(group.Id);
+            SubmitGroupRemoval();
+            ReturnToGroupsPage();
+        }
+
+        private void SelectGroup(string id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value = '" + id + "'])")).Click();
+        }
+
         public void Modify(GroupData group, int number)
         {
             applicationManager.NavigationHelper.GoToGroupsPage();
@@ -30,20 +43,47 @@ namespace addressbook_web_tests
             SubmitGroupModification();
             ReturnToGroupsPage();
         }
-
+        public void Modify(GroupData group, GroupData toBeModified)
+        {
+            applicationManager.NavigationHelper.GoToGroupsPage();
+            SelectGroup(toBeModified.Id);
+            InitGroupModification();
+            FillGroupForm(group);
+            SubmitGroupModification();
+            ReturnToGroupsPage();
+        }
 
         public void CheckGroup(int number)
         {
             applicationManager.NavigationHelper.GoToGroupsPage();
             if (!IsThereAnyGroup(++number))
             {
-                GroupData group = new GroupData("name")
-                {
-                    Header = "header",
-                    Footer = "footer"
-                };
-                Create(group);
+                CreateDefaultGroup();
             }
+        }
+        public List<GroupData> CheckGroupInDB(int number)
+        {
+            List<GroupData> groupsInDB = GroupData.GetAllData();
+            int groupsToAdd = ++number - groupsInDB.Count;
+            if (groupsToAdd > 0)
+            {
+                for (int i = 0; i < groupsToAdd; i++)
+                {
+                    CreateDefaultGroup();
+                }
+                return GroupData.GetAllData();
+            }
+            return groupsInDB;
+        }
+
+        private void CreateDefaultGroup()
+        {
+            GroupData group = new GroupData("name")
+            {
+                Header = "header",
+                Footer = "footer"
+            };
+            Create(group);
         }
 
         public bool IsThereAnyGroup(int number)

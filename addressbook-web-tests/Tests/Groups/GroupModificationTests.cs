@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class GroupModifivationTests : AuthorizationTestBase
+    public class GroupModifivationTests : GroupTestBase
     {
-        private readonly int _groupNumber = 0;
+        private readonly int _groupNumberInDB = 0;
         [Test]
         public void GroupModificationTest()
         {
@@ -15,20 +15,20 @@ namespace addressbook_web_tests
                 Header = null,
                 Footer = null
             };
-            applicationManager.GroupHelper.CheckGroup(_groupNumber);
-            List<GroupData> oldgroups = applicationManager.GroupHelper.GetGroupList();
-            GroupData oldGroup = oldgroups[_groupNumber];
-            applicationManager.GroupHelper.Modify(group, _groupNumber);
+            List<GroupData> oldgroups = applicationManager.GroupHelper.CheckGroupInDB(_groupNumberInDB);
+            GroupData toBeModified = oldgroups[_groupNumberInDB];
+
+            applicationManager.GroupHelper.Modify(group, toBeModified);
             Assert.AreEqual(oldgroups.Count, applicationManager.GroupHelper.GetGroupsCount());
-            List<GroupData> newgroups = applicationManager.GroupHelper.GetGroupList();
-            oldgroups[_groupNumber].Name = group.Name;
+            List<GroupData> newgroups = GroupData.GetAllData();
+            oldgroups[_groupNumberInDB].Name = group.Name;
             oldgroups.Sort();
             newgroups.Sort();
+
             Assert.AreEqual(oldgroups, newgroups);
-            applicationManager.AuthorizationHelper.LogoutFromAddressBook();
             foreach (GroupData newGroup in newgroups)
             {
-                if (newGroup.Id == oldGroup.Id)
+                if (newGroup.Id == toBeModified.Id)
                 {
                     Assert.AreEqual(group.Name, newGroup.Name);
                 }

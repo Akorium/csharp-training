@@ -8,7 +8,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class AddressBookEntryCreationTests : AuthorizationTestBase
+    public class AddressBookEntryCreationTests : EntryTestBase
     {
         public static IEnumerable<AddressBookEntryData> RandomEntryDataProvider()
         {
@@ -69,15 +69,13 @@ namespace addressbook_web_tests
         [Test, TestCaseSource("EntryDataFromJSON")]
         public void AddressBookEntryCreationTest(AddressBookEntryData addressBookEntryData)
         {
-            List<AddressBookEntryData> oldEntries = applicationManager.AddressBookEntryHelper.GetEntryList();
+            List<AddressBookEntryData> oldEntries = AddressBookEntryData.GetAllData();
             applicationManager.AddressBookEntryHelper.Create(addressBookEntryData);
-            List<AddressBookEntryData> newEntries = applicationManager.AddressBookEntryHelper.GetEntryList();
+            List<AddressBookEntryData> newEntries = AddressBookEntryData.GetAllData();
             oldEntries.Add(addressBookEntryData);
             oldEntries.Sort();
             newEntries.Sort();
             Assert.AreEqual(oldEntries, newEntries);
-            applicationManager.AuthorizationHelper.LogoutFromAddressBook();
-
         }
     }
 }

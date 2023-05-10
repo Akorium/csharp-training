@@ -4,19 +4,20 @@ using System.Collections.Generic;
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class AddressBookEntryRemovalTests : AuthorizationTestBase
+    public class AddressBookEntryRemovalTests : EntryTestBase
     {
         private readonly int _entryNumber = 0;
         [Test]
         public void AddressBookEntryRemovalTest()
         {
-            applicationManager.AddressBookEntryHelper.CheckEntry(_entryNumber);
-            List<AddressBookEntryData> oldentries = applicationManager.AddressBookEntryHelper.GetEntryList();
-            applicationManager.AddressBookEntryHelper.Remove(_entryNumber);
-            List<AddressBookEntryData> newentries = applicationManager.AddressBookEntryHelper.GetEntryList();
-            oldentries.RemoveAt(_entryNumber);
-            Assert.AreEqual(oldentries, newentries);
-            applicationManager.AuthorizationHelper.LogoutFromAddressBook();
+            List<AddressBookEntryData> oldEntries = applicationManager.AddressBookEntryHelper.CheckEntryInDB(_entryNumber);
+            AddressBookEntryData toBeRemoved = oldEntries[_entryNumber];
+            applicationManager.AddressBookEntryHelper.Remove(toBeRemoved);
+
+            List<AddressBookEntryData> newEntries = AddressBookEntryData.GetAllData();
+            oldEntries.RemoveAt(_entryNumber);
+
+            Assert.AreEqual(oldEntries, newEntries);
         }
     }
 }

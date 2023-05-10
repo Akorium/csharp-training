@@ -1,8 +1,12 @@
-﻿using System;
+﻿using LinqToDB.Mapping;
+using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace addressbook_web_tests
 {
+    [Table(Name = "addressbook")]
     public class AddressBookEntryData : IEquatable<AddressBookEntryData>, IComparable<AddressBookEntryData>
     {
         private string allNumbers;
@@ -35,7 +39,9 @@ namespace addressbook_web_tests
                 ? 1
                 : Lastname == anotherEntry.Lastname ? Firstname.CompareTo(anotherEntry.Firstname) : Lastname.CompareTo(anotherEntry.Lastname);
         }
+        [Column(Name = "firstname")]
         public string Firstname { get; set; }
+        [Column(Name = "lastname")]
         public string Lastname { get; set; }
         public string Address { get; set; }
         public string HomeNumber { get; set; }
@@ -44,6 +50,10 @@ namespace addressbook_web_tests
         public string EMail { get; set; }
         public string EMail2 { get; set; }
         public string Email3 { get; set; }
+        [Column(Name = "id"), PrimaryKey]
+        public string Id { get; set; }
+        [Column(Name = "deprecated")]
+        public string Deprecated { get; set; }
 
         public string AllNumbers
         {
@@ -70,6 +80,14 @@ namespace addressbook_web_tests
         private string LineBreak(string data1, string data2, string data3)
         {
             return string.IsNullOrEmpty(data1) && string.IsNullOrEmpty(data2) && string.IsNullOrEmpty(data3) ? "" : "\r\n";
+        }
+        public static List<AddressBookEntryData> GetAllData()
+        {
+            using (AddressBookDB dB = new AddressBookDB())
+            {
+                return (from e in dB.Entries.Where(x => x.Deprecated == "0000-00-00 00:00:00") select e).ToList();
+
+            }
         }
     }
 }
