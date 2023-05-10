@@ -121,6 +121,7 @@
     <Compile Include="Model\AccountData.cs" />
     <Compile Include="Model\AddressBookDB.cs" />
     <Compile Include="Model\Group_EntryRelation.cs" />
+    <Compile Include="Tests\RemoveEntryFromGroup.cs" />
     <Compile Include="Tests\AddEntryToGroupTests.cs" />
     <Compile Include="Tests\AddressBookEntry\AddressBookEntryCreationTests.cs" />
     <Compile Include="Model\AddressBookEntryData.cs" />

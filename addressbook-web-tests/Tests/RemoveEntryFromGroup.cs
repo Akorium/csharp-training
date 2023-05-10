@@ -4,21 +4,21 @@ using System.Linq;
 
 namespace addressbook_web_tests
 {
-    public class AddEntryToGroupTests : AuthorizationTestBase
+    public class RemoveEntryFromGroupTests : AuthorizationTestBase
     {
         private readonly int _groupNumberInDB = 0;
 
         [Test]
-        public void AddEntryToGroupTest()
+        public void RemoveEntryFromGroupTest()
         {
             GroupData group = applicationManager.GroupHelper.CheckGroupInDB(_groupNumberInDB)[_groupNumberInDB];
-            List<AddressBookEntryData> oldEntries = group.GetEntries();
-            AddressBookEntryData entry = applicationManager.AddressBookEntryHelper.CheckEntryInDB(0).Except(oldEntries).First();
+            List<AddressBookEntryData> oldEntries = applicationManager.AddressBookEntryHelper.CheckEntryToRemove(group); ;
+            AddressBookEntryData entryToRemove = oldEntries.First();
 
-            applicationManager.AddressBookEntryHelper.AddEntryToGroup(entry, group);
+            applicationManager.AddressBookEntryHelper.RemoveEntryFromGroup(entryToRemove, group);
 
             List<AddressBookEntryData> newEntries = group.GetEntries();
-            oldEntries.Add(entry);
+            oldEntries.RemoveAt(0);
             newEntries.Sort();
             oldEntries.Sort();
 

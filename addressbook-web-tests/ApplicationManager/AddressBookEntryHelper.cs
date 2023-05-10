@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace addressbook_web_tests
@@ -204,15 +205,33 @@ namespace addressbook_web_tests
         public void AddEntryToGroup(AddressBookEntryData entry, GroupData group)
         {
             applicationManager.NavigationHelper.GoToHomePage();
-            ClearGroupFilter();
+            SetGroupFilter("[all]");
             SelectAddressBookEntry(entry.Id);
             SelectGroupToAdd(group.Name);
-            SubmitAddingEntryToGroup();
+            SubmitActionWithEntry("add");
+        }
+        public void RemoveEntryFromGroup(AddressBookEntryData entryToRemove, GroupData group)
+        {
+            applicationManager.NavigationHelper.GoToHomePage();
+            SetGroupFilter(group.Name);
+            SelectAddressBookEntry(entryToRemove.Id);
+            SubmitActionWithEntry("remove");
+        }
+        public List<AddressBookEntryData> CheckEntryToRemove(GroupData group)
+        {
+            List<AddressBookEntryData> entriesInGroup = group.GetEntries();
+            if (entriesInGroup.Count == 0)
+            {
+                AddressBookEntryData newEntry = CheckEntryInDB(0).First();
+                AddEntryToGroup(newEntry, group);
+                return group.GetEntries();
+            }
+            return entriesInGroup;
         }
 
-        public void SubmitAddingEntryToGroup()
+        public void SubmitActionWithEntry(string action)
         {
-            driver.FindElement(By.Name("add")).Click();
+            driver.FindElement(By.Name(action)).Click();
         }
 
         public void SelectGroupToAdd(string name)
@@ -229,9 +248,9 @@ namespace addressbook_web_tests
             driver.FindElement(By.Id(id)).Click();
         }
 
-        public void ClearGroupFilter()
+        public void SetGroupFilter(string filter)
         {
-            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("" + filter + "");
         }
     }
 }
