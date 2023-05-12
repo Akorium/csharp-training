@@ -73,6 +73,16 @@ namespace addressbook_web_tests
             }
             return entriesInDB;
         }
+        public AddressBookEntryData CheckEntriesForGroup(List<AddressBookEntryData> oldEntries)
+        {
+            List<AddressBookEntryData> entries = AddressBookEntryData.GetAllData();
+            if (oldEntries.Count < entries.Count)
+            {
+                return entries.Except(oldEntries).First();
+            }
+            CreateDefaultEntry();
+            return AddressBookEntryData.GetAllData().Except(oldEntries).First();
+        }
 
         private List<AddressBookEntryData> entriesCache = null;
 

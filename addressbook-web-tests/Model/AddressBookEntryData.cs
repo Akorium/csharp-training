@@ -22,11 +22,11 @@ namespace addressbook_web_tests
         public bool Equals(AddressBookEntryData anotherEntry)
         {
             return !(anotherEntry is null)
-&& (ReferenceEquals(this, anotherEntry) || ((Firstname == anotherEntry.Firstname) && (Lastname == anotherEntry.Lastname)));
+&& (ReferenceEquals(this, anotherEntry) || ((Firstname == anotherEntry.Firstname) && (Lastname == anotherEntry.Lastname) && (Id == anotherEntry.Id)));
         }
         public override int GetHashCode()
         {
-            return (Firstname.GetHashCode()) & (Lastname.GetHashCode());
+            return (Firstname.GetHashCode()) & (Lastname.GetHashCode()) & (Id.GetHashCode());
         }
         public override string ToString()
         {
