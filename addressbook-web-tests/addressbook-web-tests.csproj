@@ -110,6 +110,9 @@
     </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
+    <Reference Include="TechTalk.SpecFlow, Version=1.4.0.0, Culture=neutral, PublicKeyToken=0778194805d6db41, processorArchitecture=MSIL">
+      <HintPath>..\packages\SpecFlow.1.4.0\lib\TechTalk.SpecFlow.dll</HintPath>
+    </Reference>
     <Reference Include="WebDriver, Version=3.141.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Selenium.WebDriver.3.141.0\lib\net45\WebDriver.dll</HintPath>
     </Reference>
@@ -118,6 +121,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BDD\Login.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Login.feature</DependentUpon>
+    </Compile>
     <Compile Include="Model\AccountData.cs" />
     <Compile Include="Model\AddressBookDB.cs" />
     <Compile Include="Model\Group_EntryRelation.cs" />
@@ -148,6 +156,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="BDD\Login.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Login.feature.cs</LastGenOutput>
+    </None>
     <None Include="TestData\Entries\entries.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
